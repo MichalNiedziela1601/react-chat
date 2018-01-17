@@ -6,12 +6,25 @@
     <meta lang="en">
     <title>Chatastrophea</title>
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-
 </head>
 <body>
 <img src="assets/icon.png" id="test-image"/>
 <h1>Hello</h1>
 <div id="root"></div>
-
+<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+<script src="secrets.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+    apiKey: window.apiKey,
+    authDomain: "auth-7d71d.firebaseapp.com",
+    databaseURL: "https://auth-7d71d.firebaseio.com",
+    projectId: "auth-7d71d",
+    storageBucket: "auth-7d71d.appspot.com",
+    messagingSenderId: window.messagingSenderId
+};
+    window.firebase = firebase;
+    firebase.initializeApp(config);
+</script>
 </body>
 </html>
