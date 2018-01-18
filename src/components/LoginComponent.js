@@ -1,41 +1,82 @@
 import React, {Component} from 'react';
 import Header from './Header';
 export default class LoginComponent extends Component {
-    state = { email: '', password: ''};
-    handleCLick = (event) => {
-        event.preventDefault();
-        console.log(this.state);
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '', password: ''
+        }
+    }
+
+    signUp = () => {
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     };
 
-    handleInputChange = (event, property) => {
-        this.setState({ [property] : event.target.value});
+    login = () => {
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(res => console.log(res))
+            .catch(err => {
+                if('auth/user-not-found' === err.code) {
+                    this.signUp();
+                } else {
+                    this.setState({error: 'Error login in'});
+                }
+            });
+    };
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({error: ''});
+        if (this.state.email && this.state.password) {
+            this.login();
+        } else {
+            this.setState({error: 'Please fill both inputs'})
+        }
+    };
+
+    handleInputChange = (event) => {
+        this.setState({[event.target.name]: event.target.value});
     };
 
     handleBlur = (field) => (event) => {
         event.target.style.background = 'red';
     };
 
+    logout = () => {
+        firebase.auth().signOut();
+    };
+
     render() {
         return (
-                <div id="LoginContainer" className="inner-container"><form>
-                    <Header/>
+            <div id="LoginContainer" className="inner-container">
+                <Header/>
+                <form onSubmit={this.handleSubmit}>
+
                     <p>Sign in or sign up by enter your email and password</p>
                     <div>
-                        <input type="text" placeholder="Your E-mail"
-
-                        onChange={($event) => this.handleInputChange($event, "email")}
-                        value={this.state.email}/>
+                        <input type="text" placeholder="Your E-mail" name="email"
+                               onChange={this.handleInputChange}
+                               value={this.state.email}
+                               />
                     </div>
                     <div>
-                        <input type="password" placeholder="Your Password"
-                        onChange={($event) => this.handleInputChange($event, "password")}
-                        value={this.state.password}/>
+                        <input type="password" placeholder="Your Password" name="password"
+                               onChange={this.handleInputChange}
+                               value={this.state.password}
+                               />
                     </div>
+                    <p className="error">{this.state.error}</p>
                     <div>
-                        <button type="submit" className="red light"
-                        onClick={ ($event) => this.handleCLick($event)} >Login</button>
+                        <button type="submit" className="red light">Login
+                        </button>
+                        <button type="button" className="light"
+                        onClick={this.logout}>
+                            Logout
+                        </button>
                     </div>
-                </form></div>
+                </form>
+            </div>
         )
     }
 }
