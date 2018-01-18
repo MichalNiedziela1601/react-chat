@@ -16,7 +16,7 @@ export default class LoginComponent extends Component {
 
     login = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(res => console.log(res))
+            .then(res => this.onLogin())
             .catch(err => {
                 if('auth/user-not-found' === err.code) {
                     this.signUp();
@@ -39,12 +39,8 @@ export default class LoginComponent extends Component {
         this.setState({[event.target.name]: event.target.value});
     };
 
-    handleBlur = (field) => (event) => {
-        event.target.style.background = 'red';
-    };
-
-    logout = () => {
-        firebase.auth().signOut();
+    onLogin = () => {
+        this.props.history.push('/');
     };
 
     render() {
@@ -70,10 +66,7 @@ export default class LoginComponent extends Component {
                     <div>
                         <button type="submit" className="red light">Login
                         </button>
-                        <button type="button" className="light"
-                        onClick={this.logout}>
-                            Logout
-                        </button>
+
                     </div>
                 </form>
             </div>

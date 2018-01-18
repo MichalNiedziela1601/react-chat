@@ -34,6 +34,7 @@ body {
 #Header {
   width: 100%;
   height: 50px;
+  animation: 1s ease-out 0s 1 fromLeftToRight;
 }
 
 #Header img {
@@ -238,4 +239,13 @@ button.red:focus {
 .error {
   margin: 5px 0;
   color: red;
+}
+
+@keyframes fromLeftToRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

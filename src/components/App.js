@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
+import { Route, withRouter} from 'react-router-dom';
 import './app.css';
 import LoginComponent from './LoginComponent';
+import ChatContainer from './ChatContainer';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -13,15 +16,18 @@ class App extends Component {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({user});
+            } else {
+                this.props.history.push('/login');
             }
         });
     }
 
     render() {
         return (
-            <div className="inner-container" id="container">
-                <p>{this.state.user.email}</p>
-                <LoginComponent/></div>)
+            <div id="container">
+                <Route exact path="/login" component={LoginComponent}/>
+                <Route exact path="/" component={ChatContainer}/>
+                </div>)
     }
 }
-export default App;
+export default withRouter(App);
