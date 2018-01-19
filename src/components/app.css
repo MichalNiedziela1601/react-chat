@@ -3,9 +3,10 @@
 body {
   height: 100vh;
   background: linear-gradient(to bottom, #FD8271 , #A62824);
+  background-attachment: fixed;
   font-family: 'Khula', sans-serif;
   color: #2f2f2f;
-  overflow: hidden;
+  overflow: visible;
   margin: 0 8px;
 }
 

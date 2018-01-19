@@ -8,10 +8,24 @@ export default class LoginComponent extends Component {
         }
     }
 
+    checkEmail = () => {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(this.state.email.toLowerCase())
+    };
+
     signUp = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(res => console.log(res))
             .catch(err => console.log(err));
+    };
+
+    onBlurEmail = (event) => {
+        this.setState({error: ''});
+        if(!this.checkEmail()) {
+            this.setState({error: 'Invalid Email', isEmailError: true});
+        } else {
+            this.setState({error: '', isEmailError: false});
+        }
     };
 
     login = () => {
@@ -44,6 +58,7 @@ export default class LoginComponent extends Component {
     };
 
     render() {
+        const errorClass = this.state.isEmailError ? "error" : "";
         return (
             <div id="LoginContainer" className="inner-container">
                 <Header/>
@@ -54,6 +69,8 @@ export default class LoginComponent extends Component {
                         <input type="text" placeholder="Your E-mail" name="email"
                                onChange={this.handleInputChange}
                                value={this.state.email}
+                               onBlur={this.onBlurEmail}
+                               className={errorClass}
                                />
                     </div>
                     <div>
