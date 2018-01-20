@@ -10,7 +10,8 @@ class App extends Component {
         super(props);
         this.state = {
             user: '',
-            messages: []
+            messages: [],
+            messagesLoaded: false
         }
     }
 
@@ -21,7 +22,7 @@ class App extends Component {
             return msg;
         });
         this.setState({ messages});
-    }
+    };
 
     componentDidMount() {
         firebase.auth().onAuthStateChanged((user) => {
@@ -37,6 +38,9 @@ class App extends Component {
             .ref('/messages')
             .on('value', snapshot => {
                 this.onMessages(snapshot);
+                if(!this.state.messagesLoaded) {
+                    this.setState({ messagesLoaded: true})
+                }
             })
     }
 
@@ -50,7 +54,6 @@ class App extends Component {
         firebase
             .database().ref('/messages')
             .push(data);
-        console.log(msg);
     };
 
     render() {
@@ -60,9 +63,18 @@ class App extends Component {
                 <Route exact path="/"
                     render={() => <ChatContainer
                         onSubmit={this.handleSubmitMessage}
-                    messages={this.state.messages}/>}
+                    messages={this.state.messages}
+                    user={this.state.user}
+                    messagesLoaded={this.state.messagesLoaded}/>}
                 />
-                <Route exact path="/users/:id" component={UserContainer} />
+                <Route path="/users/:id"
+                       render={({ history, match }) => (
+                           <UserContainer
+                               messages={this.state.messages}
+                               messagesLoaded={this.state.messagesLoaded}
+                               userID={match.params.id}
+                           />
+                       )}/>
                 </div>)
     }
 }

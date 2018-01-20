@@ -250,3 +250,30 @@ button.red:focus {
     transform: translateX(0);
   }
 }
+
+#dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  position: absolute;
+  bottom: -59px;
+  display: none;
+  z-index: 1;
+  background: #ffffff;
+}
+
+.dropdown a {
+  display: block;
+}
+
+#dropdown:hover .dropdown {
+  display: block;
+}
+
+.delete {
+  border-radius: 25%;
+  border: 1px solid black;
+  padding: 3px;
+}
