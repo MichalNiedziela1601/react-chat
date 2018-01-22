@@ -22,6 +22,7 @@ export default class UserContainer extends Component {
                 <Header>
                     <Link to="/">
                         <button className="red">Back to main</button>
+                        <Dropdown/>
                     </Link>
                 </Header>
                 {this.props.messagesLoaded ? (

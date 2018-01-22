@@ -47,6 +47,7 @@ export default class ChatContainer extends Component {
             <div id="ChatContainer" className="inner-container">
                 <Header>
                     <button className="red" onClick={this.signOut}>Logout</button>
+
                 </Header>
                 {this.props.messagesLoaded ? (
                         <div id="message-container">
