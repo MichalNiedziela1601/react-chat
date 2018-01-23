@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from './Header';
 import Dropdown from './Dropdown';
 import { Link } from 'react-router-dom';
+import BarChart from './BarChart';
 
 export default class UserContainer extends Component {
     renderUserEmail = false;

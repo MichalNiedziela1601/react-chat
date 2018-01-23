@@ -289,3 +289,18 @@ button.red:focus {
   border: 1px solid black;
   padding: 3px;
 }
+
+.notification {
+  position: absolute;
+  top: -30px;
+  height: 0;
+  opacity: 0;
+  transition: all 2s linear;
+}
+
+.show-notify {
+  height: 100%;
+  opacity: 1;
+  top: 0;
+}
+

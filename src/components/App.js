@@ -4,6 +4,8 @@ import './app.css';
 import LoginComponent from './LoginComponent';
 import ChatContainer from './ChatContainer';
 import UserContainer from "./UserContainer";
+import BarChart from './BarChart';
+import NotificationResurces from '../resources/NotificationResources';
 
 class App extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class App extends Component {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({user});
+                this.notifications.changeUser(user);
             } else {
                 this.props.history.push('/login');
             }
@@ -41,7 +44,9 @@ class App extends Component {
                 if(!this.state.messagesLoaded) {
                     this.setState({ messagesLoaded: true})
                 }
-            })
+            });
+
+        this.notifications = new NotificationResurces(firebase.messaging(), firebase.database())
     }
 
     handleSubmitMessage = msg => {
@@ -55,6 +60,7 @@ class App extends Component {
             .database().ref('/messages')
             .push(data);
     };
+
 
     render() {
         return (
@@ -75,6 +81,7 @@ class App extends Component {
                                userID={match.params.id}
                            />
                        )}/>
+                <Route exec path="/char" component={BarChart} />
                 </div>)
     }
 }
